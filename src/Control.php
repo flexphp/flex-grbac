@@ -17,7 +17,7 @@ final class Control implements ControlInterface
     private $slug;
 
     /**
-     * @var string
+     * @var null|string
      */
     private $description;
 

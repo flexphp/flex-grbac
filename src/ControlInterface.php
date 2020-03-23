@@ -11,7 +11,7 @@ namespace FlexPHP\GRBAC;
 
 interface ControlInterface
 {
-    public function __construct(string $slug, string $description);
+    public function __construct(string $slug, string $description = null);
 
     public function slug(): string;
 
