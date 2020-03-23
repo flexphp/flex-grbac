@@ -38,16 +38,33 @@ final class RoleTest extends TestCase
         $this->assertEquals($description, $role->description());
     }
 
-    public function testItCan(): void
+    public function testItGrantControl(): void
     {
         $control = new Control('user.read');
 
         $role = new Role('ROL' . __LINE__);
         $role->grant($control);
 
-        $autorizable = new AutorizableMock();
-        $autorizable->attach($role);
+        $this->assertEquals(true, $role->allow($control->slug()));
+    }
 
-        $this->assertEquals(true, $autorizable->can($control->slug()));
+    public function testItRevokeControl(): void
+    {
+        $control = new Control('user.read');
+
+        $role = new Role('ROL' . __LINE__);
+        $role->revoke($control);
+        
+        $this->assertEquals(false, $role->allow($control->slug()));
+    }
+
+    public function testItDenyControl(): void
+    {
+        $control = new Control('user.read');
+
+        $role = new Role('ROL' . __LINE__);
+        $role->deny($control);
+        
+        $this->assertEquals(false, $role->allow($control->slug()));
     }
 }

@@ -11,6 +11,9 @@ namespace FlexPHP\GRBAC;
 
 trait AutorizableTrait
 {
+    /**
+     * @var array<string, RoleInterface>
+     */
     protected $roles = [];
 
     public function can(string $slug): bool
