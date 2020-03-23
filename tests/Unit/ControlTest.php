@@ -23,4 +23,13 @@ final class ControlTest extends TestCase
         $this->assertEquals($slug, $control->slug());
         $this->assertEquals($description, $control->description());
     }
+
+    public function testItCreateWithoutDescription(): void
+    {
+        $slug = 'create';
+        $control = new Control($slug);
+
+        $this->assertEquals($slug, $control->slug());
+        $this->assertEquals(null, $control->description());
+    }
 }

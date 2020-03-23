@@ -15,5 +15,5 @@ interface ControlInterface
 
     public function slug(): string;
 
-    public function description(): string;
+    public function description(): ?string;
 }

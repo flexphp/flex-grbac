@@ -21,7 +21,7 @@ final class Control implements ControlInterface
      */
     private $description;
 
-    public function __construct(string $slug, string $description)
+    public function __construct(string $slug, string $description = null)
     {
         $this->slug = $slug;
         $this->description = $description;
@@ -32,7 +32,7 @@ final class Control implements ControlInterface
         return $this->slug;
     }
 
-    public function description(): string
+    public function description(): ?string
     {
         return $this->description;
     }
