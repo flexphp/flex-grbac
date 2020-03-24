@@ -9,7 +9,7 @@
  */
 namespace FlexPHP\GRBAC;
 
-final class Control implements ControlInterface
+final class Permission implements PermissionInterface
 {
     /**
      * @var string

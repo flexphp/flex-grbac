@@ -1,4 +1,4 @@
-# GRBAC - Granular Role Base Access Control
+# GRBAC - Granular Role Base Access Permission
 
 [![Latest Stable Version](https://poser.pugx.org/flexphp/grbac/v/stable)](https://packagist.org/packages/flexphp/grbac)
 [![Total Downloads](https://poser.pugx.org/flexphp/grbac/downloads)](https://packagist.org/packages/flexphp/grbac)

@@ -9,7 +9,7 @@
  */
 namespace FlexPHP\GRBAC\Tests\Unit;
 
-use FlexPHP\GRBAC\Control;
+use FlexPHP\GRBAC\Permission;
 use FlexPHP\GRBAC\Role;
 use FlexPHP\GRBAC\Tests\Mocks\AutorizableMock;
 use FlexPHP\GRBAC\Tests\TestCase;
@@ -18,54 +18,54 @@ final class AutorizableTraitTest extends TestCase
 {
     public function testItAttachRole(): void
     {
-        $control = new Control('user.read');
+        $permission = new Permission('user.read');
 
         $role = new Role('ROL' . __LINE__);
-        $role->grant($control);
+        $role->grant($permission);
 
         $autorizable = new AutorizableMock();
         $autorizable->attach($role);
 
-        $this->assertTrue($autorizable->can($control->slug()));
+        $this->assertTrue($autorizable->can($permission->slug()));
     }
 
     public function testItDetachRole(): void
     {
-        $control = new Control('user.read');
+        $permission = new Permission('user.read');
 
         $role = new Role('ROL' . __LINE__);
-        $role->grant($control);
+        $role->grant($permission);
 
         $autorizable = new AutorizableMock();
         $autorizable->detach($role);
 
-        $this->assertFalse($autorizable->can($control->slug()));
+        $this->assertFalse($autorizable->can($permission->slug()));
     }
 
-    public function testItAttachDetachControl(): void
+    public function testItAttachDetachPermission(): void
     {
-        $control = new Control('user.read');
+        $permission = new Permission('user.read');
 
         $role = new Role('ROL' . __LINE__);
-        $role->grant($control);
+        $role->grant($permission);
 
         $autorizable = new AutorizableMock();
         $autorizable->attach($role);
 
-        $this->assertTrue($autorizable->can($control->slug()));
+        $this->assertTrue($autorizable->can($permission->slug()));
 
         $autorizable->detach($role);
 
-        $this->assertFalse($autorizable->can($control->slug()));
+        $this->assertFalse($autorizable->can($permission->slug()));
     }
 
-    public function testItCanAnyControl(): void
+    public function testItCanAnyPermission(): void
     {
-        $userRead = new Control('user.read');
+        $userRead = new Permission('user.read');
         $roleA = new Role('ROL' . __LINE__);
         $roleA->grant($userRead);
 
-        $userCreate = new Control('user.create');
+        $userCreate = new Permission('user.create');
         $roleB = new Role('ROL' . __LINE__);
         $roleB->grant($userCreate);
 
@@ -90,13 +90,13 @@ final class AutorizableTraitTest extends TestCase
         $this->assertFalse($autorizable->canAny([$userRead->slug(), $userCreate->slug()]));
     }
 
-    public function testItCanAllControl(): void
+    public function testItCanAllPermission(): void
     {
-        $userRead = new Control('user.read');
+        $userRead = new Permission('user.read');
         $roleA = new Role('ROL' . __LINE__);
         $roleA->grant($userRead);
 
-        $userCreate = new Control('user.create');
+        $userCreate = new Permission('user.create');
         $roleB = new Role('ROL' . __LINE__);
         $roleB->grant($userCreate);
 
@@ -123,36 +123,36 @@ final class AutorizableTraitTest extends TestCase
 
     public function testItDenyOverAllGrant(): void
     {
-        $control = new Control('user.read');
+        $permission = new Permission('user.read');
         $roleA = new Role('ROL' . __LINE__);
-        $roleA->deny($control);
+        $roleA->deny($permission);
 
         $roleB = new Role('ROL' . __LINE__);
-        $roleB->grant($control);
+        $roleB->grant($permission);
 
         $autorizable = new AutorizableMock();
         $autorizable->attach($roleA);
 
-        $this->assertFalse($autorizable->can($control->slug()));
+        $this->assertFalse($autorizable->can($permission->slug()));
 
         $autorizable->attach($roleB);
 
-        $this->assertFalse($autorizable->can($control->slug()));
+        $this->assertFalse($autorizable->can($permission->slug()));
 
         $autorizable->detach($roleA);
 
-        $this->assertTrue($autorizable->can($control->slug()));
+        $this->assertTrue($autorizable->can($permission->slug()));
 
         $autorizable->detach($roleB);
 
-        $this->assertFalse($autorizable->can($control->slug()));
+        $this->assertFalse($autorizable->can($permission->slug()));
 
         $autorizable->attach($roleB);
 
-        $this->assertTrue($autorizable->can($control->slug()));
+        $this->assertTrue($autorizable->can($permission->slug()));
 
         $autorizable->attach($roleA);
 
-        $this->assertFalse($autorizable->can($control->slug()));
+        $this->assertFalse($autorizable->can($permission->slug()));
     }
 }

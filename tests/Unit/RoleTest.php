@@ -9,7 +9,7 @@
  */
 namespace FlexPHP\GRBAC\Tests\Unit;
 
-use FlexPHP\GRBAC\Control;
+use FlexPHP\GRBAC\Permission;
 use FlexPHP\GRBAC\Role;
 use FlexPHP\GRBAC\RoleInterface;
 use FlexPHP\GRBAC\Tests\TestCase;
@@ -37,40 +37,40 @@ final class RoleTest extends TestCase
         $this->assertEquals($description, $role->description());
     }
 
-    public function testItGrantControl(): void
+    public function testItGrantPermission(): void
     {
-        $control = new Control('user.read');
+        $permission = new Permission('user.read');
 
         $role = new Role('ROL' . __LINE__);
-        $role->grant($control);
+        $role->grant($permission);
 
-        $this->assertTrue($role->allow($control->slug()));
+        $this->assertTrue($role->allow($permission->slug()));
     }
 
-    public function testItRevokeControl(): void
+    public function testItRevokePermission(): void
     {
-        $control = new Control('user.read');
+        $permission = new Permission('user.read');
 
         $role = new Role('ROL' . __LINE__);
-        $role->revoke($control);
+        $role->revoke($permission);
 
-        $this->assertFalse($role->allow($control->slug()));
+        $this->assertFalse($role->allow($permission->slug()));
     }
 
-    public function testItDenyControl(): void
+    public function testItDenyPermission(): void
     {
-        $control = new Control('user.read');
+        $permission = new Permission('user.read');
 
         $role = new Role('ROL' . __LINE__);
-        $role->deny($control);
+        $role->deny($permission);
 
-        $this->assertFalse($role->allow($control->slug()));
+        $this->assertFalse($role->allow($permission->slug()));
     }
 
-    public function testItAllowAnyControl(): void
+    public function testItAllowAnyPermission(): void
     {
-        $userRead = new Control('user.read');
-        $userCreate = new Control('user.create');
+        $userRead = new Permission('user.read');
+        $userCreate = new Permission('user.create');
 
         $role = new Role('ROL' . __LINE__);
         $role->grant($userRead);
@@ -93,10 +93,10 @@ final class RoleTest extends TestCase
         $this->assertFalse($role->allowAny([$userRead->slug(), $userCreate->slug()]));
     }
 
-    public function testItAllowAllControl(): void
+    public function testItAllowAllPermission(): void
     {
-        $userRead = new Control('user.read');
-        $userCreate = new Control('user.create');
+        $userRead = new Permission('user.read');
+        $userCreate = new Permission('user.create');
 
         $role = new Role('ROL' . __LINE__);
         $role->deny($userRead);

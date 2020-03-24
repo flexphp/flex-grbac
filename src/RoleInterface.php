@@ -17,11 +17,11 @@ interface RoleInterface
 
     public function description(): ?string;
 
-    public function grant(ControlInterface $control): void;
+    public function grant(PermissionInterface $permission): void;
 
-    public function revoke(ControlInterface $control): void;
+    public function revoke(PermissionInterface $permission): void;
 
-    public function deny(ControlInterface $control): void;
+    public function deny(PermissionInterface $permission): void;
 
     public function has(string $slug): bool;
 

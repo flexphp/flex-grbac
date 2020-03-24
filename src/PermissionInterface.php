@@ -9,7 +9,7 @@
  */
 namespace FlexPHP\GRBAC;
 
-interface ControlInterface
+interface PermissionInterface
 {
     public function __construct(string $slug, string $description = null);
 

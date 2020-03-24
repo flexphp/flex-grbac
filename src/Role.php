@@ -24,7 +24,7 @@ final class Role implements RoleInterface
     /**
      * @var array<bool>
      */
-    private $control = [];
+    private $permissions = [];
 
     public function __construct(string $name, string $description = null)
     {
@@ -42,29 +42,29 @@ final class Role implements RoleInterface
         return $this->description;
     }
 
-    public function grant(ControlInterface $control): void
+    public function grant(PermissionInterface $permission): void
     {
-        $this->control[$control->slug()] = true;
+        $this->permissions[$permission->slug()] = true;
     }
 
-    public function revoke(ControlInterface $control): void
+    public function revoke(PermissionInterface $permission): void
     {
-        unset($this->control[$control->slug()]);
+        unset($this->permissions[$permission->slug()]);
     }
 
-    public function deny(ControlInterface $control): void
+    public function deny(PermissionInterface $permission): void
     {
-        $this->control[$control->slug()] = false;
+        $this->permissions[$permission->slug()] = false;
     }
 
     public function has(string $slug): bool
     {
-        return isset($this->control[$slug]);
+        return isset($this->permissions[$slug]);
     }
 
     public function allow(string $slug): bool
     {
-        return $this->control[$slug] ?? false;
+        return $this->permissions[$slug] ?? false;
     }
 
     public function allowAny(array $slugs): bool

@@ -9,27 +9,27 @@
  */
 namespace FlexPHP\GRBAC\Tests\Unit;
 
-use FlexPHP\GRBAC\Control;
+use FlexPHP\GRBAC\Permission;
 use FlexPHP\GRBAC\Tests\TestCase;
 
-final class ControlTest extends TestCase
+final class PermissionTest extends TestCase
 {
     public function testItCreate(): void
     {
         $slug = 'create';
         $description = 'Create a new resource';
-        $control = new Control($slug, $description);
+        $permission = new Permission($slug, $description);
 
-        $this->assertEquals($slug, $control->slug());
-        $this->assertEquals($description, $control->description());
+        $this->assertEquals($slug, $permission->slug());
+        $this->assertEquals($description, $permission->description());
     }
 
     public function testItCreateWithoutDescription(): void
     {
         $slug = 'create';
-        $control = new Control($slug);
+        $permission = new Permission($slug);
 
-        $this->assertEquals($slug, $control->slug());
-        $this->assertEquals(null, $control->description());
+        $this->assertEquals($slug, $permission->slug());
+        $this->assertEquals(null, $permission->description());
     }
 }
