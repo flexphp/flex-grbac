@@ -23,6 +23,8 @@ interface RoleInterface
 
     public function deny(ControlInterface $control): void;
 
+    public function has(string $slug): bool;
+
     public function allow(string $slug): bool;
 
     /**

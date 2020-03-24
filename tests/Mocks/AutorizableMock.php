@@ -17,10 +17,17 @@ final class AutorizableMock implements AutorizableInterface
 {
     use AutorizableTrait;
 
-    protected function hasControlBySlug(string $slug): bool
+    protected function isControlEnabled(string $slug): bool
     {
-        $control = \array_filter($this->roles, function (RoleInterface $role) use ($slug) {
-            return $role->allow($slug);
+        $deniedPermissions = [];
+        \array_map(function (RoleInterface $role) use ($slug, &$deniedPermissions): void {
+            if ($role->has($slug) && $role->allow($slug) === false) {
+                $deniedPermissions[$slug] = true;
+            }
+        }, $this->roles);
+
+        $control = \array_filter($this->roles, function (RoleInterface $role) use ($slug, $deniedPermissions) {
+            return !isset($deniedPermissions[$slug]) && $role->allow($slug);
         });
 
         return (bool)\count($control);

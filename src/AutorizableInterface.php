@@ -13,6 +13,16 @@ interface AutorizableInterface
 {
     public function can(string $slug): bool;
 
+    /**
+     * @param array<string>
+     */
+    public function canAny(array $slugs): bool;
+
+    /**
+     * @param array<string>
+     */
+    public function canAll(array $slugs): bool;
+
     public function attach(RoleInterface $role): void;
 
     public function detach(RoleInterface $role): void;

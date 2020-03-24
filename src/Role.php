@@ -57,6 +57,11 @@ final class Role implements RoleInterface
         $this->control[$control->slug()] = false;
     }
 
+    public function has(string $slug): bool
+    {
+        return isset($this->control[$slug]);
+    }
+
     public function allow(string $slug): bool
     {
         return $this->control[$slug] ?? false;

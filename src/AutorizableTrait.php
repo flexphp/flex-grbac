@@ -18,7 +18,29 @@ trait AutorizableTrait
 
     public function can(string $slug): bool
     {
-        return $this->hasControlBySlug($slug);
+        return $this->isControlEnabled($slug);
+    }
+
+    public function canAny(array $slugs): bool
+    {
+        foreach ($slugs as $slug) {
+            if ($this->isControlEnabled($slug)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function canAll(array $slugs): bool
+    {
+        foreach ($slugs as $slug) {
+            if (!$this->isControlEnabled($slug)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function attach(RoleInterface $role): void
@@ -31,5 +53,5 @@ trait AutorizableTrait
         unset($this->roles[$role->name()]);
     }
 
-    abstract protected function hasControlBySlug(string $slug): bool;
+    abstract protected function isControlEnabled(string $slug): bool;
 }

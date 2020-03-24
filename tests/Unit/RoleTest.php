@@ -76,14 +76,20 @@ final class RoleTest extends TestCase
         $role->grant($userRead);
         $role->grant($userCreate);
 
+        $this->assertTrue($role->allowAny([$userRead->slug()]));
+        $this->assertTrue($role->allowAny([$userCreate->slug()]));
         $this->assertTrue($role->allowAny([$userRead->slug(), $userCreate->slug()]));
 
         $role->deny($userRead);
 
+        $this->assertFalse($role->allowAny([$userRead->slug()]));
+        $this->assertTrue($role->allowAny([$userCreate->slug()]));
         $this->assertTrue($role->allowAny([$userRead->slug(), $userCreate->slug()]));
 
         $role->deny($userCreate);
 
+        $this->assertFalse($role->allowAny([$userRead->slug()]));
+        $this->assertFalse($role->allowAny([$userCreate->slug()]));
         $this->assertFalse($role->allowAny([$userRead->slug(), $userCreate->slug()]));
     }
 
@@ -96,14 +102,20 @@ final class RoleTest extends TestCase
         $role->deny($userRead);
         $role->deny($userCreate);
 
+        $this->assertFalse($role->allowAll([$userRead->slug()]));
+        $this->assertFalse($role->allowAll([$userCreate->slug()]));
         $this->assertFalse($role->allowAll([$userRead->slug(), $userCreate->slug()]));
 
         $role->grant($userRead);
 
+        $this->assertTrue($role->allowAll([$userRead->slug()]));
+        $this->assertFalse($role->allowAll([$userCreate->slug()]));
         $this->assertFalse($role->allowAll([$userRead->slug(), $userCreate->slug()]));
 
         $role->grant($userCreate);
 
+        $this->assertTrue($role->allowAll([$userRead->slug()]));
+        $this->assertTrue($role->allowAll([$userCreate->slug()]));
         $this->assertTrue($role->allowAll([$userRead->slug(), $userCreate->slug()]));
     }
 }
