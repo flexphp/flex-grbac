@@ -12,7 +12,6 @@ namespace FlexPHP\GRBAC\Tests\Unit;
 use FlexPHP\GRBAC\Control;
 use FlexPHP\GRBAC\Role;
 use FlexPHP\GRBAC\RoleInterface;
-use FlexPHP\GRBAC\Tests\Mocks\AutorizableMock;
 use FlexPHP\GRBAC\Tests\TestCase;
 
 final class RoleTest extends TestCase
@@ -45,7 +44,7 @@ final class RoleTest extends TestCase
         $role = new Role('ROL' . __LINE__);
         $role->grant($control);
 
-        $this->assertEquals(true, $role->allow($control->slug()));
+        $this->assertTrue($role->allow($control->slug()));
     }
 
     public function testItRevokeControl(): void
@@ -54,8 +53,8 @@ final class RoleTest extends TestCase
 
         $role = new Role('ROL' . __LINE__);
         $role->revoke($control);
-        
-        $this->assertEquals(false, $role->allow($control->slug()));
+
+        $this->assertFalse($role->allow($control->slug()));
     }
 
     public function testItDenyControl(): void
@@ -64,7 +63,47 @@ final class RoleTest extends TestCase
 
         $role = new Role('ROL' . __LINE__);
         $role->deny($control);
-        
-        $this->assertEquals(false, $role->allow($control->slug()));
+
+        $this->assertFalse($role->allow($control->slug()));
+    }
+
+    public function testItAllowAnyControl(): void
+    {
+        $userRead = new Control('user.read');
+        $userCreate = new Control('user.create');
+
+        $role = new Role('ROL' . __LINE__);
+        $role->grant($userRead);
+        $role->grant($userCreate);
+
+        $this->assertTrue($role->allowAny([$userRead->slug(), $userCreate->slug()]));
+
+        $role->deny($userRead);
+
+        $this->assertTrue($role->allowAny([$userRead->slug(), $userCreate->slug()]));
+
+        $role->deny($userCreate);
+
+        $this->assertFalse($role->allowAny([$userRead->slug(), $userCreate->slug()]));
+    }
+
+    public function testItAllowAllControl(): void
+    {
+        $userRead = new Control('user.read');
+        $userCreate = new Control('user.create');
+
+        $role = new Role('ROL' . __LINE__);
+        $role->deny($userRead);
+        $role->deny($userCreate);
+
+        $this->assertFalse($role->allowAll([$userRead->slug(), $userCreate->slug()]));
+
+        $role->grant($userRead);
+
+        $this->assertFalse($role->allowAll([$userRead->slug(), $userCreate->slug()]));
+
+        $role->grant($userCreate);
+
+        $this->assertTrue($role->allowAll([$userRead->slug(), $userCreate->slug()]));
     }
 }

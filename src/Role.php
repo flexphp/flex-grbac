@@ -61,4 +61,22 @@ final class Role implements RoleInterface
     {
         return $this->control[$slug] ?? false;
     }
+
+    public function allowAny(array $slugs): bool
+    {
+        $permissions = \array_filter($slugs, function ($slug) {
+            return ($this->control[$slug] ?? false) === true;
+        });
+
+        return (bool)\count($permissions);
+    }
+
+    public function allowAll(array $slugs): bool
+    {
+        $permissions = \array_filter($slugs, function ($slug) {
+            return ($this->control[$slug] ?? false) === true;
+        });
+
+        return \count($permissions) === \count($slugs);
+    }
 }

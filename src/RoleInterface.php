@@ -24,4 +24,14 @@ interface RoleInterface
     public function deny(ControlInterface $control): void;
 
     public function allow(string $slug): bool;
+
+    /**
+     * @param array<string> $slugs
+     */
+    public function allowAny(array $slugs): bool;
+
+    /**
+     * @param array<string> $slugs
+     */
+    public function allowAll(array $slugs): bool;
 }
