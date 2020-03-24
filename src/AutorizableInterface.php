@@ -14,12 +14,12 @@ interface AutorizableInterface
     public function can(string $slug): bool;
 
     /**
-     * @param array<string>
+     * @param array<string> $slugs
      */
     public function canAny(array $slugs): bool;
 
     /**
-     * @param array<string>
+     * @param array<string> $slugs
      */
     public function canAll(array $slugs): bool;
 
