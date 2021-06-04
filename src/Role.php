@@ -11,20 +11,14 @@ namespace FlexPHP\GRBAC;
 
 final class Role implements RoleInterface
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var null|string
-     */
-    private $description;
+    private ?string $description = null;
 
     /**
      * @var array<bool>
      */
-    private $permissions = [];
+    private array $permissions = [];
 
     public function __construct(string $name, string $description = null)
     {

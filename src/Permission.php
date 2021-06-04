@@ -11,15 +11,9 @@ namespace FlexPHP\GRBAC;
 
 final class Permission implements PermissionInterface
 {
-    /**
-     * @var string
-     */
-    private $slug;
+    private string $slug;
 
-    /**
-     * @var null|string
-     */
-    private $description;
+    private ?string $description = null;
 
     public function __construct(string $slug, string $description = null)
     {
